@@ -1,0 +1,1636 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GitLabApiClient</name>
+    </assembly>
+    <members>
+        <member name="T:GitLabApiClient.GitLabClient">
+            <summary>
+            A client for the GitLab API v4. You can read more about the api here: https://docs.gitlab.com/ce/api/README.html.
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.GitLabClient.#ctor(System.String,System.String)">
+            <summary>
+            Creates a new instance of the GitLab API v4 client pointing to the specified hostUrl.
+            </summary>
+            <param name="hostUrl">Host address of GitLab instance. For example https://gitlab.example.com or https://gitlab.example.com/api/v4/ </param>
+            <param name="authenticationToken">Personal access token. Obtained from GitLab profile settings.</param>
+        </member>
+        <member name="P:GitLabApiClient.GitLabClient.SimpleQuery">
+            <summary>
+            一些简单的查询可直接在此定义
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.GitLabClient.MileStone">
+            <summary>
+            Access GitLab's mileStone API.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.GitLabClient.Issues">
+            <summary>
+            Access GitLab's issues API.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.GitLabClient.MergeRequests">
+            <summary>
+            Access GitLab's merge requests API.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.GitLabClient.Projects">
+            <summary>
+            Access GitLab's projects API.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.GitLabClient.Users">
+            <summary>
+            Access GitLab's users API.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.GitLabClient.Groups">
+            <summary>
+            Access GitLab's groups API.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.GitLabClient.HostUrl">
+            <summary>
+            Host address of GitLab instance. For example https://gitlab.example.com or https://gitlab.example.com/api/v4/.
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.GitLabClient.LoginAsync(System.String,System.String)">
+            <summary>
+            Authenticates with GitLab API using user credentials.
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.GitLabException">
+            <inheritdoc />
+            <summary>
+            Exception thrown when GitLab returns non success status code.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.GitLabException.HttpStatusCode">
+            <summary>
+            Http status code of GitLab response.
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.GroupsClient">
+            <summary>
+            Used to query GitLab API to retrieve, modify, create groups.
+            <exception cref="T:GitLabApiClient.GitLabException">Thrown if request to GitLab API does not indicate success</exception>
+            <exception cref="T:System.Net.Http.HttpRequestException">Thrown if request to GitLab API fails</exception>
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.GroupsClient.GetAsync(System.String)">
+            <summary>
+            Get all details of a group. 
+            This endpoint can be accessed without authentication if the group is publicly accessible.
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.GroupsClient.SearchAsync(System.String)">
+            <summary>
+            Get all groups that match your string in their name or path.
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.GroupsClient.GetAsync(System.Action{GitLabApiClient.Models.Groups.Requests.GroupsQueryOptions})">
+            <summary>
+            Get a list of visible groups for the authenticated user.
+            When accessed without authentication, only public groups are returned.
+            </summary>
+            <param name="options">Groups retrieval options.</param>
+            <returns>Groups satisfying options.</returns>
+        </member>
+        <member name="M:GitLabApiClient.GroupsClient.GetProjectsAsync(System.String,System.Action{GitLabApiClient.Models.Groups.Requests.ProjectsGroupQueryOptions})">
+            <summary>
+            Get a list of projects in this group..
+            When accessed without authentication, only public projects are returned..
+            </summary>
+            <param name="groupId">The ID or URL-encoded path of the group owned by the authenticated user.</param>
+            <param name="options">Groups projects retrieval options.</param>
+            <returns>Issues satisfying options.</returns>
+        </member>
+        <member name="M:GitLabApiClient.GroupsClient.CreateAsync(GitLabApiClient.Models.Groups.Requests.CreateGroupRequest)">
+            <summary>
+            Creates a new project group.
+            Available only for users who can create groups.
+            </summary>
+            <returns>The newly created group.</returns>
+        </member>
+        <member name="M:GitLabApiClient.GroupsClient.TransferAsync(System.String,System.String)">
+            <summary>
+            Transfer a project to the Group namespace. Available only for admin
+            </summary>
+            <param name="groupId">The ID or URL-encoded path of the group owned by the authenticated user.</param>
+            <param name="projectId">The ID or path of a project.</param>
+            <returns>The newly updated group.</returns>
+        </member>
+        <member name="M:GitLabApiClient.GroupsClient.UpdateAsync(GitLabApiClient.Models.Groups.Requests.UpdateGroupRequest)">
+            <summary>
+            Updates the project group.
+            Only available to group owners and administrators.
+            </summary>
+            <returns>The updated group.</returns>
+        </member>
+        <member name="M:GitLabApiClient.GroupsClient.DeleteAsync(System.String)">
+            <summary>
+            Removes group with all projects inside.
+            Only available to group owners and administrators.
+            </summary>
+            <param name="groupId">The ID or path of a user group.</param>
+        </member>
+        <member name="M:GitLabApiClient.GroupsClient.SyncLdapAsync(System.String)">
+            <summary>
+            Syncs the group with its linked LDAP group.
+            Only available to group owners and administrators.
+            </summary>
+            <param name="groupId">The ID or path of a user group.</param>
+        </member>
+        <member name="M:GitLabApiClient.GroupsClient.CreateLdapLinkAsync(GitLabApiClient.Models.Groups.Requests.CreateLdapGroupLinkRequest)">
+            <summary>
+            Creates LDAP group link.
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.GroupsClient.DeleteLdapLinkAsync(System.Int32,System.String)">
+            <summary>
+            Deletes a LDAP group link.
+            </summary>
+            <param name="groupId">Id of the group.</param>
+            <param name="cn">The CN of a LDAP group</param>
+        </member>
+        <member name="M:GitLabApiClient.GroupsClient.DeleteProviderLdapLinkAsync(System.Int32,System.String,System.String)">
+            <summary>
+            Deletes a LDAP group link for a specific LDAP provider.
+            </summary>
+            <param name="groupId">Id of the group.</param>
+            <param name="provider">Name of a LDAP provider</param>
+            <param name="cn">The CN of a LDAP group</param>
+        </member>
+        <member name="T:GitLabApiClient.IssuesClient">
+            <summary>
+            Used to query GitLab API to retrieve, modify, create issues.
+            Every call to issues API must be authenticated.
+            <exception cref="T:GitLabApiClient.GitLabException">Thrown if request to GitLab API does not indicate success</exception>
+            <exception cref="T:System.Net.Http.HttpRequestException">Thrown if request to GitLab API fails</exception>
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.IssuesClient.GetAsync(System.Int32,System.Int32)">
+            <summary>
+            Retrieves project issue.
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.IssuesClient.GetAsync(System.String,System.Action{GitLabApiClient.Models.Issues.Requests.ProjectIssuesQueryOptions})">
+            <summary>
+            Retrieves issues from a project.
+            By default retrieves opened issues from all users.
+            </summary>
+            <param name="projectId">Id of the project.</param>
+            <param name="options">Issues retrieval options.</param>
+            <returns>Issues satisfying options.</returns>
+        </member>
+        <member name="M:GitLabApiClient.IssuesClient.GetAsync(System.Action{GitLabApiClient.Models.Issues.Requests.IssuesQueryOptions})">
+            <summary>
+            Retrieves issues from all projects.
+            By default retrieves opened issues from all users.
+            </summary>
+            <param name="options">Issues retrieval options.</param>
+            <returns>Issues satisfying options.</returns>
+        </member>
+        <member name="M:GitLabApiClient.IssuesClient.CreateAsync(GitLabApiClient.Models.Issues.Requests.CreateIssueRequest)">
+            <summary>
+            Creates new issue.
+            </summary>
+            <returns>The newly created issue.</returns>
+        </member>
+        <member name="M:GitLabApiClient.IssuesClient.UpdateAsync(GitLabApiClient.Models.Issues.Requests.UpdateIssueRequest)">
+            <summary>
+            Updated existing issue.
+            </summary>
+            <returns>The updated issue.</returns>
+        </member>
+        <member name="T:GitLabApiClient.MergeRequestsClient">
+            <summary>
+            Used to query GitLab API to retrieve, modify, accept, create merge requests.
+            Every API call to merge requests must be authenticated.
+            <exception cref="T:GitLabApiClient.GitLabException">Thrown if request to GitLab API does not indicate success</exception>
+            <exception cref="T:System.Net.Http.HttpRequestException">Thrown if request to GitLab API fails</exception>
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.MergeRequestsClient.GetAsync(System.Int32,System.Action{GitLabApiClient.Models.MergeRequests.Requests.ProjectMergeRequestsQueryOptions})">
+            <summary>
+            Retrieves merge request from a project.
+            By default returns opened merged requests created by anyone.
+            </summary>
+            <param name="projectId">Id of the project.</param>
+            <param name="options">Merge requests retrieval options.</param>
+            <returns>Merge requests satisfying options.</returns>
+        </member>
+        <member name="M:GitLabApiClient.MergeRequestsClient.GetAsync(System.Action{GitLabApiClient.Models.MergeRequests.Requests.MergeRequestsQueryOptions})">
+            <summary>
+            Retrieves merge request from all projects the authenticated user has access to.
+            By default returns opened merged requests created by anyone.
+            </summary>
+            <param name="options">Merge requests retrieval options.</param>
+            <returns>Merge requests satisfying options.</returns>
+        </member>
+        <member name="M:GitLabApiClient.MergeRequestsClient.CreateAsync(GitLabApiClient.Models.MergeRequests.Requests.CreateMergeRequest)">
+            <summary>
+            Creates merge request.
+            </summary>
+            <returns>The newly created merge request.</returns>
+        </member>
+        <member name="M:GitLabApiClient.MergeRequestsClient.UpdateAsync(GitLabApiClient.Models.MergeRequests.Requests.UpdateMergeRequest)">
+            <summary>
+            Updates merge request.
+            </summary>
+            <returns>The updated merge request.</returns>
+        </member>
+        <member name="M:GitLabApiClient.MergeRequestsClient.AcceptAsync(GitLabApiClient.Models.MergeRequests.Requests.AcceptMergeRequest)">
+            <summary>
+            Accepts merge request.
+            </summary>
+            <returns>The accepted merge request.</returns>
+        </member>
+        <member name="M:GitLabApiClient.MergeRequestsClient.DeleteAsync(System.Int32,System.Int32)">
+            <summary>
+            Deletes merge request.
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.Models.Groups.Requests.CreateGroupRequest">
+            <summary>
+            Used to create a new project group. Available only for users who can create groups.
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.Models.Groups.Requests.CreateGroupRequest.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GitLabApiClient.Models.Groups.Requests.CreateGroupRequest"/> class.
+            </summary>
+            <param name="name">The name of the group.</param>
+            <param name="path">The path of the group.</param>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.CreateGroupRequest.Name">
+            <summary>
+            The name of the group
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.CreateGroupRequest.Path">
+            <summary>
+            The path of the group
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.CreateGroupRequest.Description">
+            <summary>
+            The group's description
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.CreateGroupRequest.MembershipLock">
+            <summary>
+            Prevent adding new members to project membership within this group
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.CreateGroupRequest.ShareWithGroupLock">
+            <summary>
+            Prevent sharing a project with another group within this group
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.CreateGroupRequest.Visibility">
+            <summary>
+            The group's visibility. Can be private, internal, or public.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.CreateGroupRequest.LfsEnabled">
+            <summary>
+            Enable/disable Large File Storage (LFS) for the projects in this group
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.CreateGroupRequest.RequestAccessEnabled">
+            <summary>
+            Allow users to request member access.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.CreateGroupRequest.ParentId">
+            <summary>
+            The parent group id for creating nested group.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.CreateGroupRequest.SharedRunnersMinutesLimit">
+            <summary>
+            Pipeline minutes quota for this group
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.Models.Groups.Requests.CreateLdapGroupLinkRequest">
+            <summary>
+            Used to create Ldap link requests to a group.
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.Models.Groups.Requests.CreateLdapGroupLinkRequest.#ctor(System.Int32,System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GitLabApiClient.Models.Groups.Requests.CreateLdapGroupLinkRequest"/> class.
+            </summary>
+            <param name="id">The ID of a group.</param>
+            <param name="cn">Minimum access level for members of the LDAP group.</param>
+            <param name="groupAccess">The group's visibility.</param>
+            <param name="provider">LDAP provider for the LDAP group (when using several providers).</param>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.CreateLdapGroupLinkRequest.Id">
+            <summary>
+            The ID of a group
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.CreateLdapGroupLinkRequest.Cn">
+            <summary>
+            The CN of a LDAP group
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.CreateLdapGroupLinkRequest.GroupAccess">
+            <summary>
+            Minimum access level for members of the LDAP group
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.CreateLdapGroupLinkRequest.Provider">
+            <summary>
+            LDAP provider for the LDAP group (when using several providers)
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.Models.Groups.Requests.GroupsQueryOptions">
+            <summary>
+            Options for Groups listing
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.GroupsQueryOptions.SkipGroups">
+            <summary>
+            Skip the group IDs passes
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.GroupsQueryOptions.AllAvailable">
+            <summary>
+            Show all the groups you have access to
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.GroupsQueryOptions.Search">
+            <summary>
+            Return list of authorized groups matching the search criteria
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.GroupsQueryOptions.Order">
+            <summary>
+            Order groups by name or path. Default is name
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.GroupsQueryOptions.Sort">
+            <summary>
+            Order groups in asc or desc order. Default is asc
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.GroupsQueryOptions.Statistics">
+            <summary>
+            Include group statistics (admins only)
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.GroupsQueryOptions.Owned">
+            <summary>
+            Limit by groups owned by the current user
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.Models.Groups.Requests.ProjectsGroupQueryOptions">
+            <summary>
+            Options for Groups listing
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.ProjectsGroupQueryOptions.Id">
+            <summary>
+            The ID or URL-encoded path of the group owned by the authenticated user
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.ProjectsGroupQueryOptions.Archived">
+            <summary>
+            Limit by archived status
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.ProjectsGroupQueryOptions.Visibility">
+            <summary>
+            Limit by visibility public, internal, or private
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.ProjectsGroupQueryOptions.Order">
+            <summary>
+            Return projects ordered by Id, Name, Path, CreatedAt, UpdatedAt, 
+            or LastActivityAt fields. Default is CreatedAt.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.ProjectsGroupQueryOptions.Sort">
+            <summary>
+            Return projects sorted in asc or desc order. Default is desc
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.ProjectsGroupQueryOptions.Search">
+            <summary>
+            Return list of authorized projects matching the search criteria
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.ProjectsGroupQueryOptions.Simple">
+            <summary>
+            Return only the ID, URL, name, and path of each project
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.ProjectsGroupQueryOptions.Owned">
+            <summary>
+            Limit by projects owned by the current user
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.ProjectsGroupQueryOptions.Starred">
+            <summary>
+            Limit by projects starred by the current user
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.Models.Groups.Requests.UpdateGroupRequest">
+            <summary>
+            Updates the project group. Only available to group owners and administrators.
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.Models.Groups.Requests.UpdateGroupRequest.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GitLabApiClient.Models.Groups.Requests.UpdateGroupRequest"/> class.
+            </summary>
+            <param name="id">The ID of the group.</param>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.UpdateGroupRequest.Id">
+            <summary>
+            The id of the group
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.UpdateGroupRequest.Name">
+            <summary>
+            The name of the group
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.UpdateGroupRequest.Path">
+            <summary>
+            The path of the group
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.UpdateGroupRequest.Description">
+            <summary>
+            The group's description
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.UpdateGroupRequest.MembershipLock">
+            <summary>
+            Prevent adding new members to project membership within this group
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.UpdateGroupRequest.ShareWithGroupLock">
+            <summary>
+            Prevent sharing a project with another group within this group
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.UpdateGroupRequest.Visibility">
+            <summary>
+            The group's visibility. Can be private, internal, or public.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.UpdateGroupRequest.LfsEnabled">
+            <summary>
+            Enable/disable Large File Storage (LFS) for the projects in this group
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.UpdateGroupRequest.RequestAccessEnabled">
+            <summary>
+            Allow users to request member access.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.UpdateGroupRequest.ParentId">
+            <summary>
+            The parent group id for creating nested group.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Groups.Requests.UpdateGroupRequest.SharedRunnersMinutesLimit">
+            <summary>
+            Pipeline minutes quota for this group
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.Models.Issues.Requests.CreateIssueRequest">
+            <summary>
+            Used to create issues in a project.
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.Models.Issues.Requests.CreateIssueRequest.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GitLabApiClient.Models.Issues.Requests.CreateIssueRequest"/> class.
+            </summary>
+            <param name="projectId">The ID or URL-encoded path of the project owned by the authenticated user.</param>
+            <param name="title">Title of the issue.</param>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.CreateIssueRequest.ProjectId">
+            <summary>
+            The ID or URL-encoded path of the project owned by the authenticated user.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.CreateIssueRequest.Title">
+            <summary>
+            The title of an issue.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.CreateIssueRequest.Description">
+            <summary>
+            The description of an issue.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.CreateIssueRequest.Confidential">
+            <summary>
+            Set an issue to be confidential. Default is false.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.CreateIssueRequest.Assignees">
+            <summary>
+            The IDs of the users to assign issue.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.CreateIssueRequest.MilestoneId">
+            <summary>
+            The ID of a milestone to assign issue.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.CreateIssueRequest.Labels">
+            <summary>
+            Label names for an issue.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.CreateIssueRequest.DueDate">
+            <summary>
+            Date time string in the format YEAR-MONTH-DAY, e.g. 2016-03-11.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.CreateIssueRequest.CreatedAt">
+            <summary>
+            Date time string, ISO 8601 formatted, e.g. 2016-03-11T03:45:40Z (requires admin or project owner rights).
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.CreateIssueRequest.MergeRequestIdToResolveDiscussions">
+            <summary>
+            The IID of a merge request in which to resolve all issues. 
+            This will fill the issue with a default description and mark all discussions as resolved.
+            When passing a description or title, these values will take precedence over the default values.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.CreateIssueRequest.DiscussionToResolveId">
+            <summary>
+            The ID of a discussion to resolve. 
+            This will fill in the issue with a default description and mark the discussion as resolved.
+             Use in combination with <see cref="P:GitLabApiClient.Models.Issues.Requests.CreateIssueRequest.MergeRequestIdToResolveDiscussions"/>
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.CreateIssueRequest.Weight">
+            <summary>
+            The weight of an issue. Valid values are greater than or equal to 0.
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.Models.Issues.Requests.IssuesQueryOptions">
+            <summary>
+            Options for issues listing
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.IssuesQueryOptions.State">
+            <summary>
+            Return all issues or just those that are opened or closed.
+            Default is Opened.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.IssuesQueryOptions.Labels">
+            <summary>
+            List of label names, issues must have all labels to be returned. 
+            No+Label lists all issues with no labels.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.IssuesQueryOptions.MilestoneTitle">
+            <summary>
+            The milestone title.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.IssuesQueryOptions.Scope">
+            <summary>
+            Return issues for the given scope.
+            Defaults to issues created by anyone. (Introduced in GitLab 9.5).
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.IssuesQueryOptions.AuthorId">
+            <summary>
+            Return issues created by the given user id.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.IssuesQueryOptions.AssigneeId">
+            <summary>
+            Return issues assigned to the given user id (Introduced in GitLab 9.5).
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.IssuesQueryOptions.IssueIds">
+            <summary>
+            Return only the issues having the given iid.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.IssuesQueryOptions.Order">
+            <summary>
+            Specifies issues order. Default is Creation time.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.IssuesQueryOptions.SortOrder">
+            <summary>
+            Specifies project sort order. Default is desending.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.IssuesQueryOptions.Filter">
+            <summary>
+            Search issues against their title and description
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.Models.Issues.Requests.ProjectIssuesQueryOptions">
+            <inheritdoc />
+            <summary>
+            Options for project issues listing
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.Models.Issues.Requests.ProjectIssuesQueryOptions.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of ProjectIssuesQueryOptions
+            </summary>
+            <param name="projectId">The ID or URL-encoded path of the project owned by the authenticated user</param>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.ProjectIssuesQueryOptions.ProjectId">
+            <summary>
+            The ID or URL-encoded path of the project owned by the authenticated user
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.ProjectIssuesQueryOptions.CreatedAfter">
+            <summary>
+            Return issues created after the given time (inclusive)
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.ProjectIssuesQueryOptions.CreatedBefore">
+            <summary>
+            Return issues created before the given time (inclusive)
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.Models.Issues.Requests.UpdateIssueRequest">
+            <summary>
+            Used to update issues in a project.
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.Models.Issues.Requests.UpdateIssueRequest.#ctor(System.String,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GitLabApiClient.Models.Issues.Requests.UpdateIssueRequest"/> class.
+            </summary>
+            <param name="projectId">The ID or URL-encoded path of the project owned by the authenticated user.</param>
+            <param name="issueId">The internal ID of a project's issue.</param>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.UpdateIssueRequest.ProjectId">
+            <summary>
+            The ID or URL-encoded path of the project owned by the authenticated user.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.UpdateIssueRequest.IssueId">
+            <summary>
+            The internal ID of a project's issue.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.UpdateIssueRequest.Title">
+            <summary>
+            The title of an issue.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.UpdateIssueRequest.Description">
+            <summary>
+            The description of an issue.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.UpdateIssueRequest.Confidential">
+            <summary>
+            Updates an issue to be confidential.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.UpdateIssueRequest.Assignees">
+            <summary>
+            The ID of the users to assign the issue to.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.UpdateIssueRequest.MilestoneId">
+            <summary>
+            The ID of a milestone to assign the issue to.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.UpdateIssueRequest.Labels">
+            <summary>
+            Label names for an issue.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.UpdateIssueRequest.State">
+            <summary>
+            The state event of an issue. Set close to close the issue and reopen to reopen it.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.UpdateIssueRequest.UpdatedAt">
+            <summary>
+            Date time string, ISO 8601 formatted, e.g. 2016-03-11T03:45:40Z (requires admin or project owner rights).
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.UpdateIssueRequest.DueDate">
+            <summary>
+            Date time string in the format YEAR-MONTH-DAY, e.g. 2016-03-11.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Issues.Requests.UpdateIssueRequest.Weight">
+            <summary>
+            The weight of an issue. Valid values are greater than or equal to 0.
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.Models.MergeRequests.Requests.AcceptMergeRequest">
+            <summary>
+            Used to accept merge requests.
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.Models.MergeRequests.Requests.AcceptMergeRequest.#ctor(System.String,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GitLabApiClient.Models.MergeRequests.Requests.CreateMergeRequest"/> class.
+            </summary>
+            <param name="projectId">The ID or URL-encoded path of the project owned by the authenticated user.</param>
+            <param name="mergeRequestId">Internal ID of merge request.</param>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.AcceptMergeRequest.ProjectId">
+            <summary>
+            The ID or URL-encoded path of the project owned by the authenticated user.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.AcceptMergeRequest.MergeRequestId">
+            <summary>
+            Internal ID of merge request.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.AcceptMergeRequest.MergeCommitMessage">
+            <summary>
+            Custom merge commit message.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.AcceptMergeRequest.RemoveSourceBranch">
+            <summary>
+            If set removes the source branch.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.AcceptMergeRequest.MergeWhenPipelineSucceeds">
+            <summary>
+            If set merge request is merged when the pipeline succeeds.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.AcceptMergeRequest.Sha">
+            <summary>
+            If set, then this SHA must match the HEAD of the source branch, otherwise the merge will fail.
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.Models.MergeRequests.Requests.CreateMergeRequest">
+            <summary>
+            Used to create merge request.
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.Models.MergeRequests.Requests.CreateMergeRequest.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GitLabApiClient.Models.MergeRequests.Requests.CreateMergeRequest"/> class.
+            </summary>
+            <param name="projectId">The ID or URL-encoded path of the project owned by the authenticated user.</param>
+            <param name="sourceBranch">The source branch.</param>
+            <param name="targetBranch">The target branch.</param>
+            <param name="title">Title of the merge request.</param>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.CreateMergeRequest.ProjectId">
+            <summary>
+            The ID or URL-encoded path of the project owned by the authenticated user.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.CreateMergeRequest.SourceBranch">
+            <summary>
+            The source branch.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.CreateMergeRequest.TargetBranch">
+            <summary>
+            The target branch.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.CreateMergeRequest.Title">
+            <summary>
+            Title of merge request.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.CreateMergeRequest.Description">
+            <summary>
+            Description of merge request.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.CreateMergeRequest.Labels">
+            <summary>
+            Labels names for merge request.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.CreateMergeRequest.MilestoneId">
+            <summary>
+            The ID of a milestone.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.CreateMergeRequest.AssigneeId">
+            <summary>
+            Assignee user ID.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.CreateMergeRequest.TargetProjectId">
+            <summary>
+            The target project id. Numeric.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.CreateMergeRequest.RemoveSourceBranch">
+            <summary>
+            Flag indicating if a merge request should remove the source branch when merging.
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.Models.MergeRequests.Requests.MergeRequestsQueryOptions">
+            <summary>
+            Options for merge requests listing
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.MergeRequestsQueryOptions.State">
+            <summary>
+            Return all merge requests or just those that are opened, closed, or merged.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.MergeRequestsQueryOptions.Order">
+            <summary>
+            Return requests ordered by CreatedAt or UpdatedAt fields. 
+            Default is CreatedAt.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.MergeRequestsQueryOptions.SortOrder">
+            <summary>
+            Return requests sorted in ascending or descending order. Default is descending.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.MergeRequestsQueryOptions.MilestoneTitle">
+            <summary>
+            The milestone title.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.MergeRequestsQueryOptions.Simple">
+            <summary>
+            If set, returns the iid, URL, title, description, and basic state of merge request.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.MergeRequestsQueryOptions.Labels">
+            <summary>
+            Return merge requests matching a list of labels.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.MergeRequestsQueryOptions.CreatedAfter">
+            <summary>
+            Return issues created after the given time (inclusive).
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.MergeRequestsQueryOptions.CreatedBefore">
+            <summary>
+            Return issues created before the given time (inclusive).
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.MergeRequestsQueryOptions.Scope">
+            <summary>
+            Return merge requests for the given scope.
+            Defaults to merge requests created by anyone.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.MergeRequestsQueryOptions.AuthorId">
+            <summary>
+            Return merge requests created by the given user id.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.MergeRequestsQueryOptions.AssigneeId">
+            <summary>
+            Returns merge requests assigned to the given user id.
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.Models.MergeRequests.Requests.ProjectMergeRequestsQueryOptions">
+            <inheritdoc />
+            <summary>
+            Options for project merge requests listing.
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.Models.MergeRequests.Requests.ProjectMergeRequestsQueryOptions.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of ProjectMergeRequestsQueryOptions.
+            </summary>
+            <param name="projectId">The ID of a project.</param>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.ProjectMergeRequestsQueryOptions.ProjectId">
+            <summary>
+            The ID of a project
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.ProjectMergeRequestsQueryOptions.MergeRequestsIds">
+            <summary>
+            Return the request having the given ids.
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.Models.MergeRequests.Requests.UpdateMergeRequest">
+            <summary>
+            Used to update merge request.
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.Models.MergeRequests.Requests.UpdateMergeRequest.#ctor(System.String,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GitLabApiClient.Models.MergeRequests.Requests.UpdateMergeRequest"/> class.
+            </summary>
+            <param name="projectId">The ID or URL-encoded path of the project owned by the authenticated user.</param>
+            <param name="mergeRequestId">The ID of the merge request.</param>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.UpdateMergeRequest.ProjectId">
+            <summary>
+            The ID or URL-encoded path of the project owned by the authenticated user.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.UpdateMergeRequest.MergeRequestId">
+            <summary>
+            The ID of the merge request.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.UpdateMergeRequest.TargetBranch">
+            <summary>
+            The target branch.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.UpdateMergeRequest.Title">
+            <summary>
+            Title of merge request.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.UpdateMergeRequest.Description">
+            <summary>
+            Description of merge request.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.UpdateMergeRequest.AssigneeId">
+            <summary>
+            Assignee user ID.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.UpdateMergeRequest.MilestoneId">
+            <summary>
+            The ID of a milestone.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.UpdateMergeRequest.Labels">
+            <summary>
+            Labels names for merge request.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.MergeRequests.Requests.UpdateMergeRequest.RemoveSourceBranch">
+            <summary>
+            Flag indicating if a merge request should remove the source branch when merging.
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest">
+            <summary>
+            Creates a new project owned by the authenticated user.
+            If <see cref="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.UserId"/> is specified then it's created on behalf of that user. (Available for admins only).
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.FromPath(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest"/> class.
+            <param name="path">Repository name for new project.</param>
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.FromName(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest"/> class.
+            <param name="name">The name of the new project.</param>
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.Name">
+            <summary>
+            The name of the new project.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.Path">
+            <summary>
+            Custom repository name for new project. By default generated based on name.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.UserId">
+            <summary>
+            The user ID of the project owner.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.DefaultBranch">
+            <summary>
+            master by default.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.NamespaceId">
+            <summary>
+            Namespace for the new project (defaults to the current user's namespace).
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.Description">
+            <summary>
+            Short project description.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.EnableIssues">
+            <summary>
+            Enable issues for this project.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.EnableMergeRequests">
+            <summary>
+            Enable merge requests for this project.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.EnableJobs">
+            <summary>
+            Enable jobs for this project.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.EnableWiki">
+            <summary>
+            Enable wiki for this project.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.EnableSnippets">
+            <summary>
+            Enable snippets for this project.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.EnableContainerRegistry">
+            <summary>
+            Enable container registry for this project.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.EnableSharedRunners">
+            <summary>
+            Enable shared runners for this project.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.Visibility">
+            <summary>
+            Project visibility level.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.ImportUrl">
+            <summary>
+            URL to import repository from.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.PublicJobs">
+            <summary>
+            If set, jobs can be viewed by non-project-members.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.OnlyAllowMergeIfPipelineSucceeds">
+            <summary>
+            Set whether merge requests can only be merged with successful jobs.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.OnlyAllowMergeIfAllDiscussionsAreResolved">
+            <summary>
+            Set whether merge requests can only be merged when all the discussions are resolved.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.EnableLfs">
+            <summary>
+            Enable LFS.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.EnableRequestAccess">
+            <summary>
+            Allow users to request member access.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.Tags">
+            <summary>
+            The list of tags for a project; put array of tags, that should be finally assigned to a project.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.EnablePrintingMergeRequestLink">
+            <summary>
+            Show link to create/view merge request when pushing from the command line.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.CreateProjectRequest.CiConfigPath">
+            <summary>
+            The path to CI config file.
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.Models.Projects.Requests.ProjectQueryOptions">
+            <summary>
+            Options for projects listing
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.ProjectQueryOptions.UserId">
+            <summary>
+            The ID or username of the user
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.ProjectQueryOptions.Archived">
+            <summary>
+            Limit by archived status
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.ProjectQueryOptions.Visibility">
+            <summary>
+            Limit by visibility. Default is Public.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.ProjectQueryOptions.Order">
+            <summary>
+            Specifies project order. Default is Creation time.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.ProjectQueryOptions.SortOrder">
+            <summary>
+            Specifies project sort order. Default is desending.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.ProjectQueryOptions.Filter">
+            <summary>
+            Return list of projects matching the search criteria
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.ProjectQueryOptions.Simple">
+            <summary>
+            Return only the ID, URL, name, and path of each project
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.ProjectQueryOptions.Owned">
+            <summary>
+            Limit by projects owned by the current user
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.ProjectQueryOptions.IsMemberOf">
+            <summary>
+            Limit by projects that the current user is a member of
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.ProjectQueryOptions.Starred">
+            <summary>
+            Limit by projects starred by the current user
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.ProjectQueryOptions.IncludeStatistics">
+            <summary>
+            Include project statistics
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.ProjectQueryOptions.WithIssuesEnabled">
+            <summary>
+            Limit by enabled issues feature
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.ProjectQueryOptions.WithMergeRequestsEnabled">
+            <summary>
+            Limit by enabled merge requests feature
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest">
+            <summary>
+            Updates an existing project.
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest"/> class.
+            </summary>
+            <param name="projectId">The ID or URL-encoded path of the project owned by the authenticated user.</param>
+            <param name="name">The name of the project.</param>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.ProjectId">
+            <summary>
+            The ID or URL-encoded path of the project.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.Name">
+            <summary>
+            The name of the project.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.Path">
+            <summary>
+            Custom repository name for the project. By default generated based on name.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.DefaultBranch">
+            <summary>
+            master by default.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.Description">
+            <summary>
+            Short project description.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.EnableIssues">
+            <summary>
+            Enable issues for this project.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.EnableMergeRequests">
+            <summary>
+            Enable merge requests for this project.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.EnableJobs">
+            <summary>
+            Enable jobs for this project.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.EnableWiki">
+            <summary>
+            Enable wiki for this project.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.EnableSnippets">
+            <summary>
+            Enable snippets for this project.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.EnableContainerRegistry">
+            <summary>
+            Enable container registry for this project.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.EnableSharedRunners">
+            <summary>
+            Enable shared runners for this project.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.Visibility">
+            <summary>
+            Project visibility level.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.ImportUrl">
+            <summary>
+            URL to import repository from.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.PublicJobs">
+            <summary>
+            If set, jobs can be viewed by non-project-members.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.OnlyAllowMergeIfPipelineSucceeds">
+            <summary>
+            Set whether merge requests can only be merged with successful jobs.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.OnlyAllowMergeIfAllDiscussionsAreResolved">
+            <summary>
+            Set whether merge requests can only be merged when all the discussions are resolved.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.EnableLfs">
+            <summary>
+            Enable LFS.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.EnableRequestAccess">
+            <summary>
+            Allow users to request member access.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.Tags">
+            <summary>
+            The list of tags for a project; put array of tags, that should be finally assigned to a project.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest.CiConfigPath">
+            <summary>
+            The path to CI config file.
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.Models.Users.Requests.CreateUserRequest">
+            <summary>
+            Creates a new user. 
+            Note only administrators can create new users. 
+            Either <see cref="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.Password"/> or <see cref="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.ResetPassword"/> should be specified (<see cref="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.ResetPassword"/> takes priority).
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.Models.Users.Requests.CreateUserRequest.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GitLabApiClient.Models.Users.Requests.CreateUserRequest"/> class.
+            <param name="name">Name.</param>
+            <param name="username">Username.</param>
+            <param name="email">User email.</param>
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.Email">
+            <summary>
+            User email.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.Username">
+            <summary>
+            Username.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.Name">
+            <summary>
+            Name.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.Password">
+            <summary>
+            Password.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.ResetPassword">
+            <summary>
+            Send user password reset link.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.Skype">
+            <summary>
+            Skype ID
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.Linkedin">
+            <summary>
+            LinkedIn account
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.Twitter">
+            <summary>
+            Twitter account
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.WebSiteUrl">
+            <summary>
+            Website URL
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.Organization">
+            <summary>
+            Organization name
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.ProjectsLimit">
+            <summary>
+            umber of projects user can create
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.ExternUid">
+            <summary>
+            External UID
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.Provider">
+            <summary>
+            External provider name
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.Bio">
+            <summary>
+            User's biography
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.Location">
+            <summary>
+            User's location
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.Admin">
+            <summary>
+            User is admin
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.CanCreateGroup">
+            <summary>
+            User can create groups
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.SkipConfirmation">
+            <summary>
+            Skip confirmation
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.CreateUserRequest.External">
+            <summary>
+            Flags the user as external
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.Models.Users.Requests.UpdateUserRequest">
+            <summary>
+            Modifies an existing user. Only administrators can change attributes of a user.
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.Models.Users.Requests.UpdateUserRequest.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GitLabApiClient.Models.Users.Requests.UpdateUserRequest"/> class.
+            <param name="userId">The ID of the user.</param>
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.UpdateUserRequest.UserId">
+            <summary>
+            The ID of the user.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.UpdateUserRequest.Email">
+            <summary>
+            Email.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.UpdateUserRequest.Password">
+            <summary>
+            Password.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.UpdateUserRequest.Username">
+            <summary>
+            Username.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.UpdateUserRequest.Name">
+            <summary>
+            Name.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.UpdateUserRequest.Skype">
+            <summary>
+            Skype ID.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.UpdateUserRequest.Linkedin">
+            <summary>
+            LinkedIn account.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.UpdateUserRequest.Twitter">
+            <summary>
+            Twitter account.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.UpdateUserRequest.WebSiteUrl">
+            <summary>
+            Website URL.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.UpdateUserRequest.Organization">
+            <summary>
+            Organization name.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.UpdateUserRequest.ProjectsLimit">
+            <summary>
+            Limit projects each user can create.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.UpdateUserRequest.ExternUid">
+            <summary>
+            External UID.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.UpdateUserRequest.Provider">
+            <summary>
+            External provider name.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.UpdateUserRequest.Bio">
+            <summary>
+            User's biography.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.UpdateUserRequest.Location">
+            <summary>
+            User's location.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.UpdateUserRequest.Admin">
+            <summary>
+            User is admin.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.UpdateUserRequest.CanCreateGroup">
+            <summary>
+            User can create groups.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.UpdateUserRequest.SkipConfirmation">
+            <summary>
+            Flags the user as external.
+            </summary>
+        </member>
+        <member name="P:GitLabApiClient.Models.Users.Requests.UpdateUserRequest.External">
+            <summary>
+            Flags the user as external.
+            </summary>
+        </member>
+        <member name="T:GitLabApiClient.ProjectsClient">
+            <summary>
+            Used to query GitLab API to retrieve, modify, create projects.
+            <exception cref="T:GitLabApiClient.GitLabException">Thrown if request to GitLab API fails</exception>
+            <exception cref="T:System.Net.Http.HttpRequestException">Thrown if request to GitLab API fails</exception>
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.ProjectsClient.GetAsync(System.Int32)">
+            <summary>
+            Retrieves project by its id.
+            </summary>
+            <param name="projectId">Id of the project.</param>
+        </member>
+        <member name="M:GitLabApiClient.ProjectsClient.GetAsync(System.Action{GitLabApiClient.Models.Projects.Requests.ProjectQueryOptions})">
+            <summary>
+            Get a list of visible projects for authenticated user. 
+            When accessed without authentication, only public projects are returned.
+            </summary>
+            <param name="options">Query options.</param>
+        </member>
+        <member name="M:GitLabApiClient.ProjectsClient.GetUsersAsync(System.Int32)">
+            <summary>
+            Get the users list of a project.
+            </summary>
+            <param name="projectId">Id of the project.</param>
+        </member>
+        <member name="M:GitLabApiClient.ProjectsClient.CreateAsync(GitLabApiClient.Models.Projects.Requests.CreateProjectRequest)">
+            <summary>
+            Creates new project.
+            </summary>
+            <param name="request">Create project request.</param>
+            <returns>Newly created project.</returns>
+        </member>
+        <member name="M:GitLabApiClient.ProjectsClient.UpdateAsync(GitLabApiClient.Models.Projects.Requests.UpdateProjectRequest)">
+            <summary>
+            Updates existing project.
+            </summary>
+            <param name="request">Update project request.</param>
+            <returns>Newly modified project.</returns>
+        </member>
+        <member name="M:GitLabApiClient.ProjectsClient.DeleteAsync(System.Int32)">
+            <summary>
+            Deletes project.
+            </summary>
+            <param name="id">Id of the project.</param>
+        </member>
+        <member name="M:GitLabApiClient.ProjectsClient.ArchiveAsync(System.Int32)">
+            <summary>
+            Archive project.
+            </summary>
+            <param name="id">Id of the project.</param>
+        </member>
+        <member name="M:GitLabApiClient.ProjectsClient.UnArchiveAsync(System.Int32)">
+            <summary>
+            Unarchive project.
+            </summary>
+            <param name="id">Id of the project.</param>
+        </member>
+        <member name="T:GitLabApiClient.UsersClient">
+            <summary>
+            Used to query GitLab API to retrieve, modify, create users.
+            <exception cref="T:GitLabApiClient.GitLabException">Thrown if request to GitLab API fails</exception>
+            <exception cref="T:System.Net.Http.HttpRequestException">Thrown if request to GitLab API fails</exception>
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.UsersClient.GetAsync">
+            <summary>
+            Retrieves registered users.
+            </summary>
+        </member>
+        <member name="M:GitLabApiClient.UsersClient.GetAsync(System.String)">
+            <summary>
+            Retrieves an user matched by name.
+            </summary>
+            <param name="name">Username of the user.</param>
+            <returns>User or NULL if it was not found.</returns>
+        </member>
+        <member name="M:GitLabApiClient.UsersClient.GetByFilterAsync(System.String)">
+            <summary>
+            Retrieves users by filter.
+            </summary>
+            <param name="filter">Filter used for usernames and emails.</param>
+            <returns>Users list satisfying the filter.</returns>
+        </member>
+        <member name="M:GitLabApiClient.UsersClient.CreateAsync(GitLabApiClient.Models.Users.Requests.CreateUserRequest)">
+            <summary>
+            Creates new user
+            </summary>
+            <param name="request">Request to create user.</param>
+            <returns>Newly created user.</returns>
+        </member>
+        <member name="M:GitLabApiClient.UsersClient.UpdateAsync(GitLabApiClient.Models.Users.Requests.UpdateUserRequest)">
+            <summary>
+            Updates existing user
+            </summary>
+            <param name="request">Request to update user.</param>
+            <returns>Newly modified user.</returns>
+        </member>
+        <member name="M:GitLabApiClient.UsersClient.GetCurrentSessionAsync">
+            <summary>
+            Retrieves current, authenticated user session.
+            </summary>
+            <returns>Session of authenticated user.</returns>
+        </member>
+        <member name="M:GitLabApiClient.UsersClient.DeleteAsync(System.Int32)">
+            <summary>
+            Deletes user.
+            </summary>
+            <param name="userId">Id of the user.</param>
+        </member>
+    </members>
+</doc>

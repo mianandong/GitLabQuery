@@ -1,0 +1,9 @@
+C:\Users\xuwei\source\repos\GitLabQuery\bin\Debug\netstandard2.0\GitLabApiClient.xml
+C:\Users\xuwei\source\repos\GitLabQuery\bin\Debug\netstandard2.0\GitLabApiClient.deps.json
+C:\Users\xuwei\source\repos\GitLabQuery\bin\Debug\netstandard2.0\GitLabApiClient.dll
+C:\Users\xuwei\source\repos\GitLabQuery\bin\Debug\netstandard2.0\GitLabApiClient.pdb
+C:\Users\xuwei\source\repos\GitLabQuery\GitLabApiClient\obj\Debug\netstandard2.0\GitLabApiClient.csproj.CoreCompileInputs.cache
+C:\Users\xuwei\source\repos\GitLabQuery\GitLabApiClient\obj\Debug\netstandard2.0\GitLabApiClient.AssemblyInfoInputs.cache
+C:\Users\xuwei\source\repos\GitLabQuery\GitLabApiClient\obj\Debug\netstandard2.0\GitLabApiClient.AssemblyInfo.cs
+C:\Users\xuwei\source\repos\GitLabQuery\GitLabApiClient\obj\Debug\netstandard2.0\GitLabApiClient.dll
+C:\Users\xuwei\source\repos\GitLabQuery\GitLabApiClient\obj\Debug\netstandard2.0\GitLabApiClient.pdb
